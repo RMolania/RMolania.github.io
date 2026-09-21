@@ -12,6 +12,7 @@ from scholarly import scholarly
 SCHOLAR_ID = "u-bNAS8AAAAJ"   # Ramyar Molania
 MAX_PUBS = 15                  # how many recent papers to show on the site
 OUT_FILE = "publications.json"
+STATS_FILE = "scholar-stats.json"
 
 
 def short_authors(authors: str) -> str:
@@ -37,10 +38,19 @@ def clean_venue(venue: str) -> str:
 def main() -> int:
     try:
         author = scholarly.search_author_id(SCHOLAR_ID)
-        author = scholarly.fill(author, sections=["publications"], sortby="year")
+        author = scholarly.fill(author, sections=["indices", "publications"], sortby="year")
     except Exception as exc:  # Scholar occasionally rate-limits; keep old file
         print(f"Could not reach Google Scholar: {exc}", file=sys.stderr)
         return 1
+
+    citations = author.get("citedby")
+    hindex = author.get("hindex")
+    if citations is not None and hindex is not None:
+        with open(STATS_FILE, "w", encoding="utf-8") as fh:
+            json.dump({"citations": citations, "hindex": hindex}, fh, indent=2)
+        print(f"Wrote stats to {STATS_FILE}: {citations} citations, h-index {hindex}")
+    else:
+        print("Could not parse citation stats; keeping existing file.", file=sys.stderr)
 
     pubs = []
     for pub in author.get("publications", [])[:MAX_PUBS]:
