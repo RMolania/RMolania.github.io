@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ramyar Molania — Computational Cancer Biology</title>
+<meta name="description" content="Ramyar Molania is a computational cancer biologist at Dana-Farber Cancer Institute / Harvard Medical School developing statistical and machine learning methods for multimodal cancer data.">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e1116; --bg-2: #171c23; --ink: #e9ebee; --ink-2: #a9b1bc; --ink-3: #6e7683;
+    --line: #262c35; --teal: #2dd4bf; --teal-2: #10332e; --amber: #f0a83c;
+    --head: "Archivo", system-ui, sans-serif; --body: "IBM Plex Sans", system-ui, sans-serif; --mono: "IBM Plex Mono", ui-monospace, monospace;
+    --side: 260px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { overflow-x: clip; margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  a { color: var(--teal); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+  img { max-width: 100%; display: block; }
+  h1, h2, h3 { font-family: var(--head); margin: 0; line-height: 1.1; letter-spacing: -0.02em; }
+  .mono { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+
+  /* ---------- layout ---------- */
+  .layout { display: grid; grid-template-columns: var(--side) 1fr; min-height: 100vh; }
+  aside { position: sticky; top: 0; height: 100vh; border-right: 1px solid var(--line); padding: 36px 28px; display: flex; flex-direction: column; gap: 32px; }
+  aside .avatar { width: 148px; height: 148px; border-radius: 50%; object-fit: cover; border: 1px solid var(--line); margin-bottom: 16px; }
+  aside .name { font-family: var(--head); font-weight: 700; font-size: 19px; line-height: 1.15; color: var(--ink); white-space: nowrap; }
+  aside .name:hover { text-decoration: none; }
+  aside .sub { font-size: 13px; color: var(--ink-2); margin-top: 8px; line-height: 1.45; }
+  aside nav ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 2px; }
+  aside nav a { display: block; padding: 7px 10px; border-radius: 6px; color: var(--ink-2); font-size: 14.5px; font-weight: 500; }
+  aside nav a:hover, aside nav a.active { background: var(--bg-2); color: var(--ink); text-decoration: none; }
+  main { min-width: 0; }
+  .block { padding: 72px 64px; border-bottom: 1px solid var(--line); max-width: 1000px; }
+  .block-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 36px; }
+  .block-head h2 { font-size: 30px; font-weight: 600; }
+  .ic { width: 1.1em; height: 1.1em; flex: none; }
+  aside nav a { display: flex; align-items: center; gap: 10px; }
+  aside nav a .ic { width: 17px; height: 17px; opacity: .75; }
+  aside nav a:hover .ic, aside nav a.active .ic { opacity: 1; color: var(--teal); }
+  .block-head h2 { display: flex; align-items: center; gap: 12px; }
+  .block-head h2 .ic { width: 26px; height: 26px; color: var(--teal); }
+  .block-head p { margin: 0 0 0 auto; color: var(--ink-3); font-size: 14px; }
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; }
+    aside { position: relative; height: auto; border-right: 0; border-bottom: 1px solid var(--line); padding: 22px 24px; gap: 16px; }
+    aside .avatar { width: 80px; height: 80px; margin-bottom: 10px; }
+    aside nav ul { display: flex; flex-wrap: wrap; gap: 4px; }
+      .block { padding: 48px 24px; }
+    .block-head { flex-wrap: wrap; } .block-head p { margin-left: 0; width: 100%; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; padding: 72px 64px; }
+  /* divider line stops before the background logo instead of crossing it */
+  .hero::after { content: ""; position: absolute; left: 0; bottom: 0; height: 1px; width: calc(100vw - var(--side) - 70vmin); background: var(--line); }
+  .hero-content { min-width: 0; }
+  .hero h1 { font-size: clamp(18px, 3.6vw, 50px); font-weight: 700; margin: 0 0 20px; white-space: nowrap; color: var(--teal); }
+  @media (max-width: 960px) { .hero { padding: 40px 24px; } .hero::after { width: calc(100vw - 72vmin); } .hero h1 { font-size: clamp(18px, 5.4vw, 40px); } }
+  .pillars { display: flex; flex-wrap: wrap; gap: 6px 0; margin: 0 0 6px; font-family: var(--head); font-weight: 500; font-size: 21px; color: var(--ink-2); }
+  .pillars span + span::before { content: "·"; color: #ff9d2f; margin: 0 14px; font-weight: 700; }
+  .hero p { font-size: 18px; color: var(--ink-2); margin: 0; max-width: 560px; }
+  .cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
+  .about-links { margin: 22px 0 6px; }
+  .btn { display: inline-block; padding: 10px 16px; border-radius: 6px; font-weight: 600; font-size: 14px; border: 1px solid var(--line); color: var(--ink); }
+  .btn .ic { width: 16px; height: 16px; vertical-align: -3px; margin-right: 8px; }
+  .btn:hover { text-decoration: none; border-color: var(--ink-3); }
+  .btn.fill { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .btn.fill:hover { background: var(--teal); border-color: var(--teal); color: var(--bg); }
+
+  /* ---------- affiliations (sidebar) ---------- */
+  .affil { display: grid; gap: 8px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .affil a { display: block; width: fit-content; opacity: .92; transition: opacity .15s; }
+  .affil a:has(img) { background: #ffffff; border-radius: 8px; padding: 7px 12px; }
+  .affil a:hover { opacity: 1; }
+  .affil img { height: 30px; width: auto; }
+
+  /* ---------- about ---------- */
+  .about { max-width: 760px; }
+  .about p { color: var(--ink-2); margin: 0 0 16px; font-size: 16.5px; max-width: 620px; }
+  .about p.big { color: var(--ink); font-size: 21px; font-weight: 500; line-height: 1.4; font-family: var(--head); letter-spacing: -0.01em; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 24px; }
+  .stat { background: var(--bg-2); border-radius: 8px; padding: 14px; }
+  .stat .v { font-family: var(--head); font-weight: 600; font-size: 20px; }
+  .stat .k { font-size: 12.5px; color: var(--ink-3); margin-top: 2px; }
+  @media (max-width: 700px) { .stats { grid-template-columns: 1fr 1fr; } }
+
+  /* ---------- research ---------- */
+  .areas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .area { border: 1px solid var(--line); border-radius: 10px; padding: 22px; position: relative; overflow: hidden; }
+  .area::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--teal); }
+  .area h3 { font-size: 18px; font-weight: 600; margin: 8px 0 10px; }
+  .area p { margin: 0; font-size: 14.5px; color: var(--ink-2); }
+  .area .mono { color: var(--teal); }
+  .areas { align-items: start; }
+  details.area { padding: 0; }
+  details.area summary { list-style: none; cursor: pointer; padding: 22px; }
+  details.area summary::-webkit-details-marker { display: none; }
+  details.area summary:hover h3 { color: var(--teal); }
+  details.area summary:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; border-radius: 10px; }
+  .area .more { display: inline-flex; align-items: center; gap: 6px; margin-top: 14px; font-family: var(--mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--teal); }
+  .area .more::after { content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .2s; }
+  details[open].area .more::after { transform: rotate(-135deg) translate(-2px, -1px); }
+  .area .detail { padding: 0 22px 22px; border-top: 1px solid var(--line); margin: 0 22px; padding: 16px 0 22px; animation: reveal .25s ease; }
+  .area .detail ul { margin: 0; padding-left: 18px; display: grid; gap: 10px; font-size: 13.5px; color: var(--ink-2); }
+  .area .detail b { color: var(--ink); font-weight: 600; }
+  @keyframes reveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .area .detail { animation: none; } }
+  @media (max-width: 800px) { .areas { grid-template-columns: 1fr; } }
+
+  /* ---------- software ---------- */
+  .tools { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .tool { border: 1px solid var(--line); border-radius: 10px; padding: 22px; display: flex; flex-direction: column; gap: 8px; }
+  .tool h3 { font-size: 20px; font-weight: 600; font-family: var(--mono); letter-spacing: 0; }
+  .tool .tag { font-family: var(--mono); font-size: 11px; color: var(--ink-3); }
+  .tool p { margin: 0; color: var(--ink-2); font-size: 14.5px; flex: 1; }
+  .tool .links { display: flex; gap: 14px; font-size: 13.5px; font-weight: 600; padding-top: 6px; }
+  .tool.wide { grid-column: 1 / -1; flex-direction: row; align-items: center; gap: 24px; background: var(--bg-2); }
+  .tool.wide p { flex: 1; }
+  .tools { align-items: start; }
+  details.tool { padding: 0; display: block; }
+  details.tool summary { list-style: none; cursor: pointer; padding: 22px; display: flex; flex-direction: column; gap: 8px; }
+  details.tool summary::-webkit-details-marker { display: none; }
+  details.tool summary:hover h3 { color: var(--teal); }
+  details.tool summary:focus-visible { outline: 2px solid var(--teal); outline-offset: -2px; border-radius: 10px; }
+  .tool .more { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; font-family: var(--mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--teal); }
+  .tool .more::after { content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .2s; }
+  details[open].tool .more::after { transform: rotate(-135deg) translate(-2px, -1px); }
+  .tool .detail { margin: 0 22px; padding: 16px 0 22px; border-top: 1px solid var(--line); animation: reveal .25s ease; }
+  .tool .detail ul { margin: 0; padding-left: 18px; display: grid; gap: 10px; font-size: 13.5px; color: var(--ink-2); }
+  .tool .detail b { color: var(--ink); font-weight: 600; }
+  .tool .detail .links { padding-top: 14px; }
+  details.tool.wide { display: block; }
+  details.tool.wide summary { flex-direction: row; align-items: center; gap: 24px; flex-wrap: wrap; }
+  details.tool.wide summary .more { margin: 0; margin-left: auto; }
+  @media (prefers-reduced-motion: reduce) { .tool .detail { animation: none; } }
+  @media (max-width: 700px) { .tools { grid-template-columns: 1fr; } .tool.wide summary { flex-direction: column; align-items: flex-start; } details.tool.wide summary .more { margin-left: 0; } }
+
+  /* ---------- current research ---------- */
+  .now { display: grid; gap: 0; }
+  .now-item { display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .now-item:first-child { border-top: 1px solid var(--line); }
+  .now-item .status { font-family: var(--mono); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--teal); }
+  .now-item .status::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--teal); margin-right: 8px; vertical-align: 1px; }
+  .now-item h3 { font-size: 18px; font-weight: 600; }
+  .now-item p { color: var(--ink-2); font-size: 14.5px; margin: 6px 0 0; }
+  .now-item .with { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-top: 8px; }
+  @media (max-width: 700px) { .now-item { grid-template-columns: 1fr; gap: 4px; } }
+
+  /* ---------- publications grid ---------- */
+  .pub-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .pub-card { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--bg-2); display: flex; flex-direction: column; transition: transform .15s, border-color .15s; }
+  .pub-card:hover { transform: translateY(-3px); border-color: var(--teal); text-decoration: none; }
+  a.pub-card:hover { text-decoration: none; }
+  .pub-img { aspect-ratio: 16/10; width: 100%; object-fit: cover; display: block; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .pub-banner { width: 100%; display: flex; align-items: center; justify-content: flex-start; gap: 10px; padding: 10px 14px; min-height: 0; text-align: left; border-bottom: 1px solid var(--line); background: linear-gradient(135deg, var(--teal-2), var(--bg-2)); font-family: var(--head); font-weight: 600; font-size: 14px; line-height: 1.25; font-style: italic; color: var(--teal); letter-spacing: -0.01em; }
+  .jicon { flex: none; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-family: var(--mono); font-style: normal; font-weight: 600; font-size: 11px; letter-spacing: -0.02em; color: #fff; background: hsl(var(--h) 55% 42%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.15); }
+  .jicon { position: relative; overflow: hidden; }
+  .jicon .jlogo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #fff; padding: 4px; border-radius: inherit; }
+  .pub-body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .pub-meta { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+  .pub-meta .note { color: var(--amber); }
+  .pub-title { font-family: var(--head); font-weight: 600; font-size: 15.5px; line-height: 1.3; color: var(--ink); }
+  .pub-au { font-size: 12.5px; color: var(--ink-2); }
+  .pub-au b { color: var(--ink); }
+  @media (max-width: 1100px) { .pub-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .pub-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- experience ---------- */
+  .exp { display: grid; gap: 0; }
+  .role { display: grid; grid-template-columns: 130px 1fr; gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .role .when { font-family: var(--mono); font-size: 12.5px; color: var(--ink-3); line-height: 1.6; }
+  .role h3 { font-size: 18px; font-weight: 600; }
+  .role .org { color: var(--ink-2); font-size: 14.5px; margin-top: 3px; }
+  .role .desc { color: var(--ink-2); font-size: 14.5px; margin-top: 8px; }
+  @media (max-width: 700px) { .role { grid-template-columns: 1fr; gap: 4px; } }
+
+  /* ---------- recognition ---------- */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .two h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--ink); }
+  .list { list-style: none; padding: 0; margin: 0; }
+  .list li { display: grid; grid-template-columns: 72px 1fr; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; }
+  .list .yr { font-family: var(--mono); font-size: 12px; color: var(--ink-3); padding-top: 3px; }
+  .list .d { color: var(--ink-3); font-size: 13px; }
+  .list .amt { font-family: var(--mono); font-size: 12px; color: var(--teal); }
+  @media (max-width: 800px) { .two { grid-template-columns: 1fr; } }
+
+  /* ---------- contact ---------- */
+  .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  form { display: grid; gap: 12px; }
+  label { font-size: 12.5px; font-weight: 600; color: var(--ink-2); display: grid; gap: 5px; }
+  input, textarea { font: inherit; font-size: 15px; padding: 10px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); width: 100%; }
+  input:focus, textarea:focus { border-color: var(--teal); outline: none; }
+  textarea { min-height: 120px; resize: vertical; }
+  .clist { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-size: 15px; }
+  .clist li { display: grid; grid-template-columns: 90px 1fr; gap: 10px; }
+  .clist .k { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); padding-top: 4px; text-transform: uppercase; letter-spacing: .06em; }
+  @media (max-width: 800px) { .contact { grid-template-columns: 1fr; } }
+  footer { padding: 28px 64px; color: var(--ink-3); font-size: 13px; font-family: var(--mono); }
+  @media (max-width: 960px) { footer { padding: 24px; } }
+  /* ---------- blurred logo behind the whole page ---------- */
+  .logo-wrap { position: absolute; z-index: -1; right: 1vmin; top: 30px; width: 68vmin; pointer-events: none; }
+  .bg-logo { width: 100%; aspect-ratio: 1; background: url("logo-bg.jpg") center / cover no-repeat; opacity: .42;
+    -webkit-mask-image: radial-gradient(circle, #000 66%, transparent 74%); mask-image: radial-gradient(circle, #000 66%, transparent 74%); }
+  .quote { width: min(250px, 100%); margin: -3vmin auto 0; min-height: 4.6em; text-align: center; font-family: var(--head); font-style: italic; font-weight: 500; font-size: 16px; line-height: 1.45; color: var(--ink-2); transition: opacity .6s ease, transform .6s ease; }
+  .quote::before { content: "\201C"; display: block; font-size: 30px; line-height: .6; color: #ff9d2f; margin-bottom: 4px; }
+  .quote.out { opacity: 0; transform: translateY(6px); }
+  @media (max-width: 960px) { .logo-wrap { right: -20vmin; top: 0; width: 90vmin; } .bg-logo { opacity: .3; } .quote { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .quote { transition: none; } }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-about" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></symbol><symbol id="i-research" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v6l-5.5 9.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-2.5L14 9V3"/><path d="M7.5 15h9"/></symbol><symbol id="i-current" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol><symbol id="i-software" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol><symbol id="i-publications" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3z"/><path d="M8 9h6M8 13h6"/></symbol><symbol id="i-experience" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></symbol><symbol id="i-recognition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="9" r="6"/><path d="m8.5 14-1.5 7 5-3 5 3-1.5-7"/></symbol><symbol id="i-contact" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol><symbol id="i-scholar" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></symbol><symbol id="i-github" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol><symbol id="i-linkedin" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol><symbol id="i-talks" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M12 16v4M8 20h8M7.5 12l3-3 2 2 3.5-4"/></symbol><symbol id="i-honorary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17" cy="9" r="2.6"/><path d="M17 14c2.8 0 4.5 1.9 4.5 4.6"/></symbol></defs></svg>
+<div class="logo-wrap" aria-hidden="true">
+  <div class="bg-logo"></div>
+  <p class="quote" id="quote">The difficult we do immediately; the impossible takes a bit longer.</p>
+</div>
+<div class="layout">
+
+<aside>
+  <div>
+    <img class="avatar" src="portrait.jpg" alt="Ramyar Molania">
+    <a class="name" href="#top">Ramyar Molania, PhD</a>
+    <div class="sub">Senior Research Fellow<br>Computational Cancer Biology<br>Dana-Farber Cancer Institute<br>Harvard Medical School</div>
+    <div class="affil">
+      <a href="https://hms.harvard.edu/" aria-label="Harvard Medical School"><img src="logo-hms.jpg" alt="Harvard Medical School"></a>
+      <a href="https://www.dana-farber.org/" aria-label="Dana-Farber Cancer Institute"><img src="logo-dfci.jpg" alt="Dana-Farber Cancer Institute"></a>
+    </div>
+  </div>
+  <nav>
+    <ul id="nav">
+      <li><a href="#about"><svg class="ic" aria-hidden="true"><use href="#i-about"/></svg>About</a></li>
+      <li><a href="#experience"><svg class="ic" aria-hidden="true"><use href="#i-experience"/></svg>Experience</a></li>
+      <li><a href="#research"><svg class="ic" aria-hidden="true"><use href="#i-research"/></svg>Research</a></li>
+      <li><a href="#current"><svg class="ic" aria-hidden="true"><use href="#i-current"/></svg>Current work</a></li>
+      <li><a href="#publications"><svg class="ic" aria-hidden="true"><use href="#i-publications"/></svg>Publications</a></li>
+      <li><a href="#recognition"><svg class="ic" aria-hidden="true"><use href="#i-recognition"/></svg>Recognition</a></li>
+      <li><a href="#talks"><svg class="ic" aria-hidden="true"><use href="#i-talks"/></svg>Talks &amp; teaching</a></li>
+      <li><a href="#software"><svg class="ic" aria-hidden="true"><use href="#i-software"/></svg>Software</a></li>
+      <li><a href="#honorary"><svg class="ic" aria-hidden="true"><use href="#i-honorary"/></svg>Honorary appointments</a></li>
+      <li><a href="#contact"><svg class="ic" aria-hidden="true"><use href="#i-contact"/></svg>Contact</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<main id="top">
+
+<div class="hero">
+  <div class="hero-content">
+    <h1>Decoding Cancer From Big Data</h1>
+    <div class="pillars"><span>Statistics</span><span>Machine learning</span><span>Data science</span><span>Cancer biology</span></div>
+  </div>
+</div>
+
+<section class="block" id="about">
+  <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-about"/></svg>About</h2></div>
+  <div class="about">
+    <div>
+      <p class="big">Development and application of advanced computational, statistical, and machine learning methodologies to analyze large-scale multi-modal cancer datasets.</p>
+      <p>Research spans three interconnected areas: (1) quality control, removal of unwanted variation, and integrative analyses of bulk and single-cell multi-omics data including RNA-seq, ATAC-seq, CITE-seq, and spatial transcriptomics; (2) pan-cancer transcriptional coordination during cancer initiation, progression, spanning normal, primary, and metastatic disease, with a focus on uncovering shared and context-specific molecular programs that drive tumor evolution and metastasis; and (3) Deep learning for digital pathology, integrating histopathology imaging with genomic and transcriptomic data to advance cancer diagnosis, subtype classification, and treatment response prediction.</p>
+      <div class="cta about-links">
+        <a class="btn fill" href="https://scholar.google.com.au/citations?user=u-bNAS8AAAAJ&amp;hl=en"><svg class="ic" aria-hidden="true"><use href="#i-scholar"/></svg>Google Scholar</a>
+        <a class="btn" href="https://github.com/"><svg class="ic" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
+        <a class="btn" href="https://www.linkedin.com/"><svg class="ic" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn</a>
+        <a class="btn" href="RMolania_CV.docx" download>CV</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="v">1,255</div><div class="k">Citations</div></div>
+        <div class="stat"><div class="v">16</div><div class="k">h-index</div></div>
+        <div class="stat"><div class="v">$2.4M</div><div class="k">Grant funding</div></div>
+        <div class="stat"><div class="v">10+</div><div class="k">Trainees mentored</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="experience">
+  <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-experience"/></svg>Experience</h2><p>Appointments and education</p></div>
+  <div class="exp">
+    <div class="role"><div class="when">2025 – present<br>Boston, USA</div><div><h3>Senior Research Fellow, Computational Cancer Biology</h3><div class="org">Department of Medical Oncology, Dana-Farber Cancer Institute · Harvard Medical School · P.I. Prof. Himisha Beltran</div><div class="desc">Pan-cancer landscapes of transcriptional heterogeneity in metastatic tumours.</div></div></div>
+    <div class="role"><div class="when">2019 – 2024<br>Melbourne, AU</div><div><h3>Senior Research Fellow / Research Fellow</h3><div class="org">Bioinformatics Division, Walter and Eliza Hall Institute (WEHI) · P.I. Prof. Terence P. Speed, Prof. Anthony T. Papenfuss</div><div class="desc">Computational and statistical tools for bulk and single-cell RNA-seq, methylation, CITE-seq and spatial transcriptomics.</div></div></div>
+    <div class="role"><div class="when">2014 – 2015<br>Melbourne, AU</div><div><h3>Research Assistant</h3><div class="org">Translational Genomics and Epigenomics Lab, Olivia Newton-John Cancer Research Institute (Ludwig Institute) · P.I. Assoc. Prof. Alexander Dobrovic</div><div class="desc">RNA-seq and methylation analysis for predictive marker identification in lung cancer.</div></div></div>
+    <div class="role"><div class="when">2014 – 2018<br>Melbourne, AU</div><div><h3>PhD, Computational Cancer Biology and Bioinformatics</h3><div class="org">The University of Melbourne · Advisors Prof. Terence P. Speed, Assoc. Prof. Alexander Dobrovic</div><div class="desc">Removing unwanted variation in large and complex gene expression datasets: novel normalization methods for NanoString nCounter and RNA-seq data.</div></div></div>
+    <div class="role"><div class="when">2010 – 2013<br>Iran</div><div><h3>MSc, Human Molecular Genetics</h3><div class="org">Chamran University &amp; National Institute of Genetic Engineering and Biotechnology (NIGEB)</div><div class="desc">A panel of cancer testis antigens and clinical risk factors to predict metastasis in colorectal cancer.</div></div></div>
+    <div class="role"><div class="when">2006 – 2010<br>Iran</div><div><h3>BSc, Human Molecular Genetics</h3><div class="org">Shahrekord University</div><div class="desc">A comparative study of amino acid composition and codon usage of Otx and Oct gene families using a bioinformatics approach.</div></div></div>
+  </div>
+</section>
+
+<section class="block" id="research">
+  <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-research"/></svg>Research</h2><p>Three interconnected areas</p></div>
+  <div class="areas">
+    <details class="area"><summary><div class="mono">Methods</div><h3>Multimodal integration &amp; method development</h3><p>Statistical and ML frameworks for quality control, removal of unwanted variation and integrative analysis of high-dimensional multi-omics data.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Removing unwanted variation</b> — RUV-III with pseudo-replicates of pseudo-samples (PRPS) for large-scale RNA-seq (<i>Nat Biotechnol</i> 2023).</li><li><b>Scalable normalization</b> — RUVprps for bulk RNA-seq and fastRUV-III for atlas-level single-cell and spatial data; RUV-III-NB for single-cell counts.</li><li><b>Platform-specific methods</b> — normalization for NanoString nCounter (<i>Nucleic Acids Res</i> 2019) and tools to explore and remove unwanted variation in TCGA RNA-seq (tcgaCleaner).</li><li><b>Data types</b> — bulk and single-cell RNA-seq, ATAC-seq, CITE-seq, TCR/BCR, spatial and digital spatial profiling, exome sequencing, methylation.</li></ul></div></details>
+    <details class="area"><summary><div class="mono">Translation</div><h3>Cancer systems biology &amp; translational oncology</h3><p>Integrative analysis of normal, primary and metastatic cancers to resolve transcriptional programs underlying tumour evolution, response and resistance.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Metastatic cancer</b> — multimodal integration of pan-cancer metastases for biomarker discovery, including removal of host-tissue background signal (RUVprps_Met).</li><li><b>Prostate cancer</b> — consortium analyses of mutational processes, epigenetic inactivation and evolutionary divergence (Pan-Prostate Cancer Group).</li><li><b>Tumour immunology</b> — immune infiltration and patient outcome in colorectal cancer.</li></ul></div></details>
+    <details class="area"><summary><div class="mono">AI</div><h3>Computational pathology</h3><p>Interpretable deep learning that combines histopathology imaging with genomic and transcriptomic data for diagnosis, classification and stratification.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Goal</b> — combine histopathology images with genomic and transcriptomic data.</li><li><b>Approach</b> — interpretable deep learning for diagnosis, classification and patient stratification.</li><li><b>Status</b> — an emerging direction that builds on the multimodal integration work above.</li></ul></div></details>
+  </div>
+</section>
+
+<section class="block" id="current">
+  <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-current"/></svg>Current work</h2><p>Active projects</p></div>
+  <div class="now">
+    <div class="now-item"><div class="status">Active</div><div><h3>STAMP: a single-cell atlas of metastatic and primary tumours</h3><p>A single-cell (18 million cells), bulk (70k samples) and spatial (400 samples) transcriptomic database of primary and metastatic cancers, built to resolve cell identity and state across cancer types.</p><div class="with">Dana-Farber Cancer Institute · Beltran lab</div></div></div>
+    <div class="now-item"><div class="status">Active</div><div><h3>Pan-cancer transcriptional heterogeneity in metastatic tumours</h3><p>Shared and context-specific molecular programs across normal, primary and metastatic disease, including removal of host-tissue background signal (RUVprps_Met) and the effect of non-malignant cells on transcriptomic analyses.</p><div class="with">Dana-Farber Cancer Institute · Beltran lab · RUVprps_Met</div></div></div>
+    <div class="now-item"><div class="status">Active</div><div><h3>Scalable normalization for bulk, single-cell and spatial data</h3><p>RUVprps for bulk RNA-seq (under revision), joint normalization of single-cell multimodal and spatial data, and better use of RLE plots to untangle batch and biological effects.</p><div class="with">RUVprps · fastRUV-III</div></div></div>
+    <div class="now-item"><div class="status">Active</div><div><h3>Immune landscape of metastatic prostate cancer</h3><p>Immune, imaging and genomic predictors of response to 177Lu-PSMA, pembrolizumab and olaparib in metastatic castration-resistant prostate cancer.</p><div class="with">PCF Challenge Award · Peter Mac &amp; WEHI</div></div></div>
+    <div class="now-item"><div class="status">Active</div><div><h3>Prostate cancer consortium studies</h3><p>Analysis contributions to studies of clonal dynamics and heterogeneous trajectories towards metastatic prostate cancer.</p><div class="with"><a href="https://panprostate.org" target="_blank" rel="noopener">Pan-Prostate Cancer Group · panprostate.org</a></div></div></div>
+    <div class="now-item"><div class="status">Active</div><div><h3>Digital pathology</h3><p>Deep learning that links histopathology with molecular data, including detection of neuroendocrine prostate cancer from routine histology.</p><div class="with">Dana-Farber Cancer Institute</div></div></div>
+  </div>
+</section>
+
+<section class="block" id="publications">
+  <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-publications"/></svg>Publications</h2><p>Selected · † first or senior author</p></div>
+  <div class="pub-grid" id="pub-grid">
+    <a class="pub-card" href="https://www.nature.com/articles/s41586-026-10468-w" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:23" aria-hidden="true">N<img class="jlogo" src="images/journals/nature.png" data-next="https://www.google.com/s2/favicons?domain=nature.com&amp;sz=64" alt="" loading="lazy"></span>Nature</div><div class="pub-body"><div class="pub-meta">2026 · Nature</div><div class="pub-title">Integrated signatures define mutational processes in prostate cancer</div><div class="pub-au">Gruber A.J., …, <b>Molania R.</b>, …, Weischenfeldt J.</div></div></a>
+    <a class="pub-card" href="https://www.nature.com/articles/s41467-026-72182-5" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:6" aria-hidden="true">NC<img class="jlogo" src="images/journals/nature-communications.png" data-next="https://www.google.com/s2/favicons?domain=nature.com&amp;sz=64" alt="" loading="lazy"></span>Nature Communications</div><div class="pub-body"><div class="pub-meta">2026 · Nat Commun</div><div class="pub-title">Recurrent mechanisms of biallelic epigenetic inactivation reveal new putative tumour suppressor genes in prostate cancer</div><div class="pub-au">Kiriy D., …, <b>Molania R.</b>, …, Weischenfeldt J.</div></div></a>
+    <a class="pub-card" href="https://aacrjournals.org/cancerres/article/86/7_Supplement/4182/779596" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:323" aria-hidden="true">CR<img class="jlogo" src="images/journals/cancer-research.png" data-next="https://www.google.com/s2/favicons?domain=aacrjournals.org&amp;sz=64" alt="" loading="lazy"></span>Cancer Research</div><div class="pub-body"><div class="pub-meta">2026 · Cancer Res</div><div class="pub-title">Pan-cancer landscapes of transcriptional heterogeneity in metastatic tumors</div><div class="pub-au"><b>Molania R.†</b>, Beltran H.</div></div></a>
+    <a class="pub-card" href="https://www.biorxiv.org/content/10.64898/2026.01.28.702384.abstract" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:19" aria-hidden="true">bR<img class="jlogo" src="images/journals/biorxiv.png" data-next="https://www.google.com/s2/favicons?domain=biorxiv.org&amp;sz=64" alt="" loading="lazy"></span>bioRxiv</div><div class="pub-body"><div class="pub-meta">2026 · bioRxiv · <span class="note">under revision</span></div><div class="pub-title">RUVprps enables accurate and scalable RNA-seq normalization without prior knowledge of biological and unwanted variation</div><div class="pub-au">Trussart M., …, <b>Molania R.†</b></div></div></a>
+    <a class="pub-card" href="https://www.biorxiv.org/content/10.64898/2026.08.20.746095.abstract" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:19" aria-hidden="true">bR<img class="jlogo" src="images/journals/biorxiv.png" data-next="https://www.google.com/s2/favicons?domain=biorxiv.org&amp;sz=64" alt="" loading="lazy"></span>bioRxiv</div><div class="pub-body"><div class="pub-meta">2026 · bioRxiv · <span class="note">submitted</span></div><div class="pub-title">ClustoCell reveals cell states and their markers from single-cell transcriptome</div><div class="pub-au">Salavaty A., …, <b>Molania R.†</b></div></div></a>
+    <a class="pub-card" href="https://aacrjournals.org/cancerrescommun/article/6/9/2187/788356" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:306" aria-hidden="true">CRC<img class="jlogo" src="images/journals/cancer-research-communications.png" data-next="https://www.google.com/s2/favicons?domain=aacrjournals.org&amp;sz=64" alt="" loading="lazy"></span>Cancer Research Communications</div><div class="pub-body"><div class="pub-meta">2026 · Cancer Res Commun</div><div class="pub-title">Vitronectin enrichment in prostate cancer liver metastases promotes adhesion and survival</div><div class="pub-au">Egelberg J., …, <b>Molania R.</b>, …, Beltran H.</div></div></a>
+    <a class="pub-card" href="https://scholar.google.com/scholar?q=Removing%20unwanted%20variation%20from%20large-scale%20RNA%20sequencing%20data%20with%20PRPS" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:251" aria-hidden="true">NB<img class="jlogo" src="images/journals/nature-biotechnology.png" data-next="https://www.google.com/s2/favicons?domain=nature.com&amp;sz=64" alt="" loading="lazy"></span>Nature Biotechnology</div><div class="pub-body"><div class="pub-meta">2023 · Nat Biotechnol</div><div class="pub-title">Removing unwanted variation from large-scale RNA sequencing data with PRPS</div><div class="pub-au"><b>Molania R.†</b>, …, Speed T.P.</div></div></a>
+    <a class="pub-card" href="https://scholar.google.com/scholar?q=Normalizing%20cancer%20RNA-seq%20data%20for%20library%20size%2C%20tumor%20purity%20and%20batch%20effects" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:251" aria-hidden="true">NB<img class="jlogo" src="images/journals/nature-biotechnology.png" data-next="https://www.google.com/s2/favicons?domain=nature.com&amp;sz=64" alt="" loading="lazy"></span>Nature Biotechnology</div><div class="pub-body"><div class="pub-meta">2023 · Nat Biotechnol · <span class="note">briefing</span></div><div class="pub-title">Normalizing cancer RNA-seq data for library size, tumor purity and batch effects</div><div class="pub-au">Speed T.P., <b>Molania R.</b></div></div></a>
+    <a class="pub-card" href="https://scholar.google.com/scholar?q=RUV-III-NB%3A%20normalization%20of%20single%20cell%20RNA-seq%20data" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:238" aria-hidden="true">NAR<img class="jlogo" src="images/journals/nucleic-acids-research.png" data-next="https://www.google.com/s2/favicons?domain=academic.oup.com&amp;sz=64" alt="" loading="lazy"></span>Nucleic Acids Research</div><div class="pub-body"><div class="pub-meta">2022 · Nucleic Acids Res</div><div class="pub-title">RUV-III-NB: normalization of single cell RNA-seq data</div><div class="pub-au">Salim A., <b>Molania R.</b>, …, Speed T.P.</div></div></a>
+    <a class="pub-card" href="https://scholar.google.com/scholar?q=The%20ratio%20of%20exhausted%20to%20resident%20infiltrating%20lymphocytes%20is%20prognostic%20for%20colorectal%20cancer%20patient%20outcome" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:17" aria-hidden="true">CIR<img class="jlogo" src="images/journals/cancer-immunology-research.png" data-next="https://www.google.com/s2/favicons?domain=aacrjournals.org&amp;sz=64" alt="" loading="lazy"></span>Cancer Immunology Research</div><div class="pub-body"><div class="pub-meta">2021 · Cancer Immunol Res</div><div class="pub-title">The ratio of exhausted to resident infiltrating lymphocytes is prognostic for colorectal cancer patient outcome</div><div class="pub-au">Foroutan M., <b>Molania R.</b>, …, Huntington N.D.</div></div></a>
+    <a class="pub-card" href="https://scholar.google.com/scholar?q=tidybulk%3A%20an%20R%20tidy%20framework%20for%20modular%20transcriptomic%20data%20analysis" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:220" aria-hidden="true">GB<img class="jlogo" src="images/journals/genome-biology.png" data-next="https://www.google.com/s2/favicons?domain=genomebiology.biomedcentral.com&amp;sz=64" alt="" loading="lazy"></span>Genome Biology</div><div class="pub-body"><div class="pub-meta">2021 · Genome Biol</div><div class="pub-title">tidybulk: an R tidy framework for modular transcriptomic data analysis</div><div class="pub-au">Mangiola S., <b>Molania R.</b>, …, Papenfuss A.T.</div></div></a>
+    <a class="pub-card" href="https://scholar.google.com/scholar?q=A%20new%20normalization%20for%20Nanostring%20gene%20expression%20data" target="_blank" rel="noopener"><div class="pub-banner"><span class="jicon" style="--h:238" aria-hidden="true">NAR<img class="jlogo" src="images/journals/nucleic-acids-research.png" data-next="https://www.google.com/s2/favicons?domain=academic.oup.com&amp;sz=64" alt="" loading="lazy"></span>Nucleic Acids Research</div><div class="pub-body"><div class="pub-meta">2019 · Nucleic Acids Res</div><div class="pub-title">A new normalization for Nanostring gene expression data</div><div class="pub-au"><b>Molania R.†</b>, …, Speed T.P.</div></div></a>
+  </div>
+  <p style="margin:18px 0 0;font-size:14px;font-weight:600"><a href="https://scholar.google.com.au/citations?user=u-bNAS8AAAAJ&amp;hl=en">Full list on Google Scholar →</a></p>
+</section>
+
+<section class="block" id="recognition">
+  <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-recognition"/></svg>Recognition</h2><p>Funding, honours and service</p></div>
+  <div class="two">
+    <div>
+      <h3>Grants</h3>
+      <ul class="list">
+        <li><span class="yr">2024–27</span><span>PCF Challenge Award <span class="amt">US$1M</span><div class="d">Co-Investigator · Peter Mac &amp; WEHI</div></span></li>
+        <li><span class="yr">2021–23</span><span>Merck Oncology Translational Grant <span class="amt">US$1M</span><div class="d">Co-Investigator · Peter Mac &amp; WEHI</div></span></li>
+        <li><span class="yr">2021–24</span><span>PCF Young Investigator Award <span class="amt">US$225K</span><div class="d">Principal Investigator · WEHI &amp; Peter Mac</div></span></li>
+        <li><span class="yr">2021–23</span><span>MACH Grant <span class="amt">A$200K</span><div class="d">Co-Investigator · WEHI</div></span></li>
+      </ul>
+      <h3 style="margin-top:32px">Consortia &amp; leadership</h3>
+      <ul class="list">
+        <li><span class="yr">2026–</span><span>Metastatic Research Society</span></li>
+        <li><span class="yr">2025–</span><span>Human Tumor Atlas Network</span></li>
+        <li><span class="yr">2025–26</span><span>MAQC Machine Learning Working Group</span></li>
+        <li><span class="yr">2024–</span><span>Co-Leader, PCF Microenvironment and Immunology Working Group</span></li>
+        <li><span class="yr">2020–</span><span>Pan-Prostate Cancer Genome consortium</span></li>
+        <li><span class="yr">2020–</span><span>Massive Analysis and Quality Control (MAQC) Society</span></li>
+        <li><span class="yr">2020–</span><span>International Society for Computational Biology (ISCB)</span></li>
+        <li><span class="yr">2016–</span><span>Australian Bioinformatics and Computational Biology Society</span></li>
+        <li><span class="yr">2022</span><span>Sole Convenor, Victorian Cancer Bioinformatics Symposium</span></li>
+        <li><span class="yr">2023</span><span>Co-Convener, WEHI Bioinformatics Seminar Series<div class="d">45 weekly talks</div></span></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Honours &amp; awards</h3>
+      <ul class="list">
+        <li><span class="yr">2021, 25</span><span>Young Scientist Award<div class="d">MAQC Society, awarded twice</div></span></li>
+        <li><span class="yr">2021</span><span>Professional Award<div class="d">Post-doctoral Association, WEHI</div></span></li>
+        <li><span class="yr">2021</span><span>Travel Scholarship<div class="d">MAQC Society</div></span></li>
+        <li><span class="yr">2018</span><span>Top PhD Student Medal<div class="d">Olivia Newton-John Cancer Research Institute</div></span></li>
+        <li><span class="yr">2017</span><span>PhD Top-Up and Travel Scholarships<div class="d">Cancer Therapeutics CRC · ONJCRI</div></span></li>
+        <li><span class="yr">2016</span><span>Best Talk Award<div class="d">COMBINE Conference, Brisbane</div></span></li>
+        <li><span class="yr">2014</span><span>Melbourne International Research &amp; Fee Remission Scholarships<div class="d">The University of Melbourne</div></span></li>
+      </ul>
+      <h3 style="margin-top:32px">Mentorship</h3>
+      <ul class="list">
+        <li><span class="yr">Postdocs</span><span>Four research fellows at DFCI, WEHI and Peter Mac</span></li>
+        <li><span class="yr">Students</span><span>Six Master's students across DFCI, Melbourne and Monash</span></li>
+        <li><span class="yr">PhD</span><span>PhD advisory committee member<div class="d">WEHI / The University of Melbourne · 2022–2025</div></span></li>
+      </ul>
+      <h3 style="margin-top:32px">Review</h3>
+      <ul class="list">
+        <li><span class="yr">Journals</span><span>Nature Communications, Nucleic Acids Research, Scientific Reports, BMC Cancer and others</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="talks">
+  <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-talks"/></svg>Talks &amp; teaching</h2><p>† invited speaker</p></div>
+  <div class="two">
+    <div>
+      <h3>Selected talks</h3>
+      <ul class="list">
+        <li><span class="yr">2025</span><span>Pan-cancer landscapes of transcriptional heterogeneity in metastatic tumors<div class="d">MAQC 2025, SAS Institute, Cary, NC</div></span></li>
+        <li><span class="yr">2025</span><span>Fast, accurate and scalable normalization for RNA sequencing data with the RUVprps software package<div class="d">MAQC 2025, SAS Institute, Cary, NC</div></span></li>
+        <li><span class="yr">2024</span><span>Fast and accurate normalization of atlas-level single cell data †<div class="d">Bioinformatics Platform, Monash University</div></span></li>
+        <li><span class="yr">2023</span><span>Removing unwanted variation from large cancer gene expression data †<div class="d">International Biometric Society, Eastern Mediterranean Region, Turkey</div></span></li>
+        <li><span class="yr">2022</span><span>RUV-III-PRPS for normalizing large and complex RNA-seq data †<div class="d">Statistical Methods in Genetic/Genomic Studies Workshop, National University of Singapore</div></span></li>
+        <li><span class="yr">2022</span><span>Normalizing RNA-seq data for library size, purity and batch effects †<div class="d">MAQC China Chapter Meeting</div></span></li>
+        <li><span class="yr">2018</span><span>A new normalization for Nanostring gene expression assay<div class="d">useR! Conference, Brisbane</div></span></li>
+        <li><span class="yr">2016</span><span>Robust normalization of Nanostring gene expression data<div class="d">ABACBS / COMBINE Conference, Brisbane</div></span></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Teaching &amp; workshops</h3>
+      <ul class="list">
+        <li><span class="yr">2023</span><span>Workshop instructor: Removing unwanted variation from large cancer data<div class="d">International Biometric Society Conference, Turkey</div></span></li>
+        <li><span class="yr">2022</span><span>Designer &amp; instructor: Experimental design course (graduate)<div class="d">WEHI Statistics Education Subcommittee</div></span></li>
+        <li><span class="yr">2018</span><span>Workshop co-organizer &amp; instructor: Removing unwanted variation with R<div class="d">useR! 2018, Brisbane</div></span></li>
+        <li><span class="yr">2017</span><span>Workshop co-organizer &amp; instructor: Transcriptomic data analysis<div class="d">Short bioinformatics course, Iran</div></span></li>
+        <li><span class="yr">2016</span><span>Teaching assistant: Data visualization in R<div class="d">Melbourne Business School, University of Melbourne</div></span></li>
+        <li><span class="yr">2016</span><span>Guest lecturer: Algorithms for functional genomics<div class="d">The University of Melbourne</div></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="software">
+  <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-software"/></svg>Software &amp; resources</h2><p>Open source</p></div>
+  <div class="tools">
+    <details class="tool"><summary><span class="tag">Website · RUV hub</span><h3>RUVtools</h3><p>A centralized hub for all RUV tools, with detailed vignettes and comprehensive documentation.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Purpose</b> — one place to find every RUV normalization tool and how to use it.</li><li><b>Content</b> — detailed vignettes and comprehensive documentation.</li><li><b>Developed at</b> WEHI and DFCI, 2023–2026.</li></ul><div class="links"><a href="https://RUVtools.org">Website</a></div></div></details>
+    <details class="tool"><summary><span class="tag">R package · bulk RNA-seq</span><h3>RUVprps</h3><p>Normalization and integration of large and complex RNA-seq data.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Method</b> — RUV-III with pseudo-replicates of pseudo-samples (PRPS), which needs no prior knowledge of biological or unwanted variation.</li><li><b>Scale</b> — designed for large, complex RNA-seq studies.</li><li><b>Developed at</b> WEHI and DFCI, 2024–2026. Preprint under revision.</li></ul><div class="links"><a href="#">GitHub</a><a href="#">Preprint</a></div></div></details>
+    <details class="tool"><summary><span class="tag">R package · single-cell &amp; spatial</span><h3>fastRUV-III</h3><p>Fast normalization and integration of atlas-level single-cell and spatial data.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Use</b> — normalization and integration of atlas-scale single-cell and spatial transcriptomic data.</li><li><b>Related</b> — RUV-III-NB for single-cell counts (<i>Nucleic Acids Res</i> 2022).</li><li><b>Developed at</b> WEHI and DFCI, 2024–2026. Joint single-cell multimodal and spatial normalization manuscript in preparation.</li></ul><div class="links"><a href="#">GitHub</a></div></div></details>
+    <details class="tool"><summary><span class="tag">R package · metastasis</span><h3>RUVprps_Met</h3><p>Removal of host-tissue background signals from metastatic bulk RNA-seq.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Problem</b> — signal from the surrounding organ can mask tumour biology in metastatic samples.</li><li><b>Approach</b> — extends the RUVprps framework to remove host-tissue background.</li><li><b>Developed at</b> DFCI, 2026.</li></ul><div class="links"><a href="#">GitHub</a></div></div></details>
+    <details class="tool"><summary><span class="tag">Database · single-cell, bulk &amp; spatial</span><h3>STAMP</h3><p>Single-cell (18 million cells), bulk (70k samples) and spatial (400 samples) transcriptomic atlas of primary and metastatic cancers.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Scope</b> — 18 million single cells, 70,000 bulk samples and 400 spatial samples.</li><li><b>Cancers</b> — primary and metastatic tumours across cancer types.</li><li><b>Status</b> — developed at DFCI, 2025–2026; manuscript in final preparation.</li></ul></div></details>
+    <details class="tool"><summary><span class="tag">R package · TCGA</span><h3>tcgaCleaner</h3><p>Exploring and removing unwanted variation from TCGA RNA-seq data.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Use</b> — detect and remove technical variation in TCGA RNA-seq before analysis.</li><li><b>Companion to</b> the TCGA Shiny app and the harmonized TCGA data resource.</li><li><b>Developed at</b> WEHI, 2022.</li></ul><div class="links"><a href="#">GitHub</a></div></div></details>
+    <details class="tool"><summary><span class="tag">Web app · TCGA</span><h3>TCGA R Shiny app</h3><p>Interactive visualization for exploring and removing unwanted variation from TCGA pan-cancer RNA-seq data.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Use</b> — explore sources of unwanted variation interactively across the TCGA pan-cancer data.</li><li><b>Built with</b> R Shiny.</li><li><b>Developed at</b> WEHI, 2022.</li></ul><div class="links"><a href="#">Open app</a></div></div></details>
+    <details class="tool"><summary><span class="tag">Pipeline · consortium</span><h3>PPCG RNA-seq</h3><p>Contributor to the RNA-seq analysis pipeline for the Pan-Prostate Cancer Genome consortium.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Role</b> — contributor to the shared RNA-seq data analysis pipeline.</li><li><b>Consortium</b> — Pan-Prostate Cancer Genome (PPCG).</li><li><b>Involved since</b> 2021, from WEHI.</li></ul><div class="links"><a href="#">Overview</a></div></div></details>
+    <details class="tool wide"><summary><div><span class="tag">Data resource · 7k downloads</span><h3>TCGA pan-cancer RNA-seq</h3></div><p>Harmonized TCGA RNA-seq data for 33 cancer types and about 11,000 samples, as SummarizedExperiment objects with raw counts, FPKM, batch information and gene annotations.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Coverage</b> — 33 cancer types and about 11,000 samples.</li><li><b>Contents</b> — raw counts, FPKM, batch information and gene annotations.</li><li><b>Format</b> — SummarizedExperiment objects, ready for R and Bioconductor workflows.</li><li><b>Reach</b> — 7k downloads; released from WEHI, 2023.</li></ul><div class="links"><a href="https://zenodo.org/records/6326542">Zenodo</a></div></div></details>
+  </div>
+</section>
+
+<section class="block" id="honorary">
+  <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-honorary"/></svg>Honorary appointments</h2><p>Affiliated groups</p></div>
+  <div class="exp">
+    <div class="role"><div class="when">Honorary<br>Melbourne, AU</div><div><h3>Speed Lab</h3><div class="org">Walter and Eliza Hall Institute (WEHI) · Prof. Terence P. Speed</div></div></div>
+    <div class="role"><div class="when">Friend of the lab<br>Boston, USA</div><div><h3><a href="https://rafalab.dfci.harvard.edu/pages/people.html" target="_blank" rel="noopener">Irizarry Lab</a></h3><div class="org">Dana-Farber Cancer Institute (DFCI) · Prof. Rafael Irizarry</div></div></div>
+    <div class="role"><div class="when">Friend of the lab<br>Melbourne, AU</div><div><h3>Sandhu Lab</h3><div class="org">Peter MacCallum Cancer Centre (PMCC) · Prof. Shahneen Sandhu</div></div></div>
+  </div>
+</section>
+
+<section class="block" id="contact">
+  <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-contact"/></svg>Contact</h2><p>Collaboration, methods, software, speaking</p></div>
+  <div class="contact">
+    <!-- Formspree (https://formspree.io): replace YOUR_ID to make this form work -->
+    <form action="https://formspree.io/f/YOUR_ID" method="POST">
+      <label>Name <input type="text" name="name" required></label>
+      <label>Email <input type="email" name="email" required></label>
+      <label>Message <textarea name="message" required></textarea></label>
+      <div><button class="btn fill" type="submit" style="font-family:inherit;cursor:pointer">Send message</button></div>
+    </form>
+    <ul class="clist">
+      <li><span class="k">Email</span><a href="mailto:ramyar_molania@dfci.harvard.edu">ramyar_molania@dfci.harvard.edu</a></li>
+      <li><span class="k">Address</span><span>Dana-Farber Cancer Institute<br>Boston, MA, USA</span></li>
+      <li><span class="k">Scholar</span><a href="https://scholar.google.com.au/citations?user=u-bNAS8AAAAJ&amp;hl=en">Google Scholar</a></li>
+      <li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/">Connect on LinkedIn</a></li>
+      <li><span class="k">Code</span><a href="https://github.com/">GitHub</a></li>
+    </ul>
+  </div>
+</section>
+
+<footer>© <span id="year"></span> Ramyar Molania · Dana-Farber Cancer Institute · Harvard Medical School</footer>
+</main>
+</div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // rotating sayings under the logo
+  (() => {
+    const el = document.getElementById('quote');
+    if (!el) return;
+    const q = [
+      'The difficult we do immediately; the impossible takes a bit longer.',
+      'Life is too short.',
+      'For every complex problem, there is an answer that is simple, clean and wrong.'
+    ];
+    let i = 0;
+    setInterval(() => {
+      el.classList.add('out');
+      setTimeout(() => { i = (i + 1) % q.length; el.textContent = q[i]; el.classList.remove('out'); }, 600);
+    }, 6000);
+  })();
+
+  // active nav link on scroll
+  const links = [...document.querySelectorAll('#nav a')];
+  const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) links.forEach((a, i) => a.classList.toggle('active', secs[i] === e.target));
+  }), { rootMargin: '-40% 0px -55% 0px' });
+  secs.forEach(s => io.observe(s));
+
+  // journal logos: local file -> journal favicon -> monogram badge
+  document.addEventListener('error', e => {
+    const img = e.target;
+    if (!img.classList || !img.classList.contains('jlogo')) return;
+    const next = img.dataset.next;
+    if (next) { img.dataset.next = ''; img.src = next; } else img.remove();
+  }, true);
+
+  // load latest publications (publications.json is refreshed daily
+  // from Google Scholar by a GitHub Action — see fetch_scholar.py)
+  fetch('publications.json', { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : Promise.reject())
+    .then(pubs => {
+      if (!Array.isArray(pubs) || !pubs.length) return;
+      const esc = s => String(s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+      const DOM = {"nature": "nature.com", "nature communications": "nature.com", "nature biotechnology": "nature.com", "nucleic acids research": "academic.oup.com", "nucleic acids res": "academic.oup.com", "neuro-oncology advances": "academic.oup.com", "genome biology": "genomebiology.biomedcentral.com", "genome biol": "genomebiology.biomedcentral.com", "cancer immunology research": "aacrjournals.org", "cancer immunol res": "aacrjournals.org", "cancer research": "aacrjournals.org", "cancer research communications": "aacrjournals.org", "biorxiv": "biorxiv.org", "medrxiv": "medrxiv.org", "arxiv": "arxiv.org", "advanced science": "advanced.onlinelibrary.wiley.com", "journal of clinical oncology": "ascopubs.org", "springer nature": "springernature.com", "asia-pacific journal of clinical oncology": "onlinelibrary.wiley.com"};
+      const slug = v => v.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      const logo = v => {
+        const d = DOM[v.toLowerCase()];
+        const fav = d ? `https://www.google.com/s2/favicons?domain=${d}&sz=64` : '';
+        return `<img class="jlogo" src="images/journals/${slug(v)}.png" data-next="${fav}" alt="" loading="lazy">`;
+      };
+      const hue = v => [...v].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 0);
+      const ini = v => {
+        const w = v.split(/[\s\-–/]+/).filter(x => x && !['of','the','and','for','in','on'].includes(x.toLowerCase()));
+        if (w.length === 1) { const caps = w[0].match(/[A-Z]/g); return (/^[a-z]/.test(w[0]) && caps) ? w[0][0] + caps[caps.length - 1] : w[0][0].toUpperCase(); }
+        return w.map(x => x[0].toUpperCase()).join('').slice(0, 3);
+      };
+      const badge = v => `<div class="pub-banner"><span class="jicon" style="--h:${hue(v)}" aria-hidden="true">${esc(ini(v))}${logo(v)}</span>${esc(v)}</div>`;
+      const me = s => esc(s).replace(/((?:R\.?\s+)?Molania(?:,?\s+R\.?†?)?)/g, '<b>$1</b>');
+      document.getElementById('pub-grid').innerHTML = pubs.map(p => {
+        const tag = p.url ? 'a' : 'div';
+        const href = p.url ? ` href="${esc(p.url)}" target="_blank" rel="noopener"` : '';
+        const visual = p.image
+          ? `<img class="pub-img" src="${esc(p.image)}" alt="" loading="lazy">`
+          : badge(p.venue || 'Article');
+        return `<${tag} class="pub-card"${href}>${visual}
+          <div class="pub-body">
+            <div class="pub-meta">${esc(p.year)}${p.venue ? ' · ' + esc(p.venue) : ''}</div>
+            <div class="pub-title">${esc(p.title)}</div>
+            <div class="pub-au">${me(p.authors)}</div>
+          </div></${tag}>`;
+      }).join('');
+    })
+    .catch(() => { /* keep the static list already in the page */ });
+</script>
+</body>
+</html>
