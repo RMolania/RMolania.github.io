@@ -24,6 +24,7 @@ jobs:
       - name: Fetch publications from Google Scholar
         run: python fetch_scholar.py
         continue-on-error: true   # Scholar may rate-limit; keep the old file
+        timeout-minutes: 5        # Scholar can hang instead of erroring when it blocks CI IPs
 
       - name: Commit changes
         run: |
