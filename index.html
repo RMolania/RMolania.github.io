@@ -98,7 +98,7 @@
   .area h3 { font-size: 18px; font-weight: 600; margin: 8px 0 10px; }
   .area p { margin: 0; font-size: 14.5px; color: var(--ink-2); }
   .area .mono { color: var(--teal); }
-  .areas { align-items: start; }
+  .areas { align-items: stretch; }
   details.area { padding: 0; }
   details.area summary { list-style: none; cursor: pointer; padding: 22px; }
   details.area summary::-webkit-details-marker { display: none; }
@@ -206,8 +206,8 @@
   @media (max-width: 960px) { footer { padding: 24px; } }
   /* ---------- blurred logo behind the whole page ---------- */
   .logo-wrap { position: absolute; z-index: -1; right: 1rem; top: 1.9rem; width: var(--logo-w); pointer-events: none; }
-  .bg-logo { width: 100%; aspect-ratio: 1; background: url("logo-bg.jpg") center / cover no-repeat; opacity: .42;
-    -webkit-mask-image: radial-gradient(circle, #000 66%, transparent 74%); mask-image: radial-gradient(circle, #000 66%, transparent 74%); }
+  .bg-logo { width: 100%; aspect-ratio: 1; background: url("logo-bg.jpg") center / cover no-repeat; opacity: .75;
+    -webkit-mask-image: radial-gradient(circle, #000 62%, transparent 88%); mask-image: radial-gradient(circle, #000 62%, transparent 88%); }
   .quote { width: min(250px, 100%); margin: -3vmin auto 0; min-height: 4.6em; text-align: center; font-family: var(--head); font-style: italic; font-weight: 500; font-size: 16px; line-height: 1.45; color: var(--ink-2); transition: opacity .6s ease, transform .6s ease; }
   .quote::before { content: "\201C"; display: block; font-size: 30px; line-height: .6; color: #ff9d2f; margin-bottom: 4px; }
   .quote.out { opacity: 0; transform: translateY(6px); }
@@ -254,7 +254,7 @@
 <div class="hero">
   <div class="hero-content">
     <h1>Decoding Cancer From Big Data</h1>
-    <div class="pillars"><span>Statistics</span><span>Machine learning</span><span>Data science</span><span>Cancer biology</span></div>
+    <div class="pillars"><span>Statistics</span><span>Machine learning</span><span>Data science</span><span>AI</span><span>Cancer biology</span></div>
   </div>
 </div>
 
@@ -263,7 +263,7 @@
   <div class="about">
     <div>
       <p class="big">Development and application of advanced computational, statistical, and machine learning methodologies to analyze large-scale multi-modal cancer datasets.</p>
-      <p>Research spans three interconnected areas: (1) quality control, removal of unwanted variation, and integrative analyses of bulk and single-cell multi-omics data including RNA-seq, ATAC-seq, CITE-seq, and spatial transcriptomics; (2) pan-cancer transcriptional coordination during cancer initiation, progression, spanning normal, primary, and metastatic disease, with a focus on uncovering shared and context-specific molecular programs that drive tumor evolution and metastasis; and (3) Deep learning for digital pathology, integrating histopathology imaging with genomic and transcriptomic data to advance cancer diagnosis, subtype classification, and treatment response prediction.</p>
+      <p>Research spans three interconnected areas: (1) experimental design, quality control, removal of unwanted variation, and integrative analyses of bulk and single-cell multi-omics data including RNA-seq, ATAC-seq, CITE-seq, and spatial transcriptomics; (2) Deep learning for digital pathology, integrating histopathology imaging with genomic and transcriptomic data to advance cancer diagnosis, subtype classification, and treatment response prediction; and (3) pan-cancer transcriptional coordination during cancer initiation, progression, spanning normal, primary, and metastatic disease, with a focus on uncovering shared and context-specific molecular programs that drive tumor evolution and metastasis.</p>
       <div class="cta about-links">
         <a class="btn fill" href="https://scholar.google.com.au/citations?user=u-bNAS8AAAAJ&amp;hl=en"><svg class="ic" aria-hidden="true"><use href="#i-scholar"/></svg>Google Scholar</a>
         <a class="btn" href="https://github.com/"><svg class="ic" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
@@ -295,7 +295,7 @@
 <section class="block" id="research">
   <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-research"/></svg>Research</h2><p>Three interconnected areas</p></div>
   <div class="areas">
-    <details class="area"><summary><div class="mono">Methods</div><h3>Multimodal integration &amp; method development</h3><p>Statistical and ML frameworks for quality control, removal of unwanted variation and integrative analysis of high-dimensional multi-omics data.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Removing unwanted variation</b> — RUV-III with pseudo-replicates of pseudo-samples (PRPS) for large-scale RNA-seq (<i>Nat Biotechnol</i> 2023).</li><li><b>Scalable normalization</b> — RUVprps for bulk RNA-seq and fastRUV-III for atlas-level single-cell and spatial data; RUV-III-NB for single-cell counts.</li><li><b>Platform-specific methods</b> — normalization for NanoString nCounter (<i>Nucleic Acids Res</i> 2019) and tools to explore and remove unwanted variation in TCGA RNA-seq (tcgaCleaner).</li><li><b>Data types</b> — bulk and single-cell RNA-seq, ATAC-seq, CITE-seq, TCR/BCR, spatial and digital spatial profiling, exome sequencing, methylation.</li></ul></div></details>
+    <details class="area"><summary><div class="mono">Methods</div><h3>Multimodal integration &amp; method development</h3><p>Statistical and computational frameworks for quality control, removal of unwanted variation and integrative analysis of high-dimensional multi-omics and digital pathology data.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Removing unwanted variation</b> — RUV-III with pseudo-replicates of pseudo-samples (PRPS) for large-scale RNA-seq (<i>Nat Biotechnol</i> 2023).</li><li><b>Scalable normalization</b> — RUVprps for bulk RNA-seq and fastRUV-III for atlas-level single-cell and spatial data; RUV-III-NB for single-cell counts.</li><li><b>Platform-specific methods</b> — normalization for NanoString nCounter (<i>Nucleic Acids Res</i> 2019) and tools to explore and remove unwanted variation in TCGA RNA-seq (tcgaCleaner).</li><li><b>Data types</b> — bulk and single-cell RNA-seq, ATAC-seq, CITE-seq, TCR/BCR, spatial and digital spatial profiling, exome sequencing, methylation.</li></ul></div></details>
     <details class="area"><summary><div class="mono">Translation</div><h3>Cancer systems biology &amp; translational oncology</h3><p>Integrative analysis of normal, primary and metastatic cancers to resolve transcriptional programs underlying tumour evolution, response and resistance.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Metastatic cancer</b> — multimodal integration of pan-cancer metastases for biomarker discovery, including removal of host-tissue background signal (RUVprps_Met).</li><li><b>Prostate cancer</b> — consortium analyses of mutational processes, epigenetic inactivation and evolutionary divergence (Pan-Prostate Cancer Group).</li><li><b>Tumour immunology</b> — immune infiltration and patient outcome in colorectal cancer.</li></ul></div></details>
     <details class="area"><summary><div class="mono">AI</div><h3>Computational pathology</h3><p>Interpretable deep learning that combines histopathology imaging with genomic and transcriptomic data for diagnosis, classification and stratification.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Goal</b> — combine histopathology images with genomic and transcriptomic data.</li><li><b>Approach</b> — interpretable deep learning for diagnosis, classification and patient stratification.</li><li><b>Status</b> — an emerging direction that builds on the multimodal integration work above.</li></ul></div></details>
   </div>
@@ -304,12 +304,13 @@
 <section class="block" id="current">
   <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-current"/></svg>Current work</h2><p>Active projects</p></div>
   <div class="now">
-    <div class="now-item"><div class="status">Active</div><div><h3>STAMP: a single-cell atlas of metastatic and primary tumours</h3><p>A single-cell (18 million cells), bulk (70k samples) and spatial (400 samples) transcriptomic database of primary and metastatic cancers, built to resolve cell identity and state across cancer types.</p><div class="with">Dana-Farber Cancer Institute · Beltran lab</div></div></div>
+    <div class="now-item"><div class="status">Active</div><div><h3>Single-cell atlas of metastatic and primary tumours</h3><p>A single-cell (18 million cells), bulk (70k samples) and spatial (400 samples) transcriptomic database of primary and metastatic cancers, built to resolve cell identity and state across cancer types.</p><div class="with">Dana-Farber Cancer Institute · Beltran lab</div></div></div>
     <div class="now-item"><div class="status">Active</div><div><h3>Pan-cancer transcriptional heterogeneity in metastatic tumours</h3><p>Shared and context-specific molecular programs across normal, primary and metastatic disease, including removal of host-tissue background signal (RUVprps_Met) and the effect of non-malignant cells on transcriptomic analyses.</p><div class="with">Dana-Farber Cancer Institute · Beltran lab · RUVprps_Met</div></div></div>
-    <div class="now-item"><div class="status">Active</div><div><h3>Scalable normalization for bulk, single-cell and spatial data</h3><p>RUVprps for bulk RNA-seq (under revision), joint normalization of single-cell multimodal and spatial data, and better use of RLE plots to untangle batch and biological effects.</p><div class="with">RUVprps · fastRUV-III</div></div></div>
-    <div class="now-item"><div class="status">Active</div><div><h3>Immune landscape of metastatic prostate cancer</h3><p>Immune, imaging and genomic predictors of response to 177Lu-PSMA, pembrolizumab and olaparib in metastatic castration-resistant prostate cancer.</p><div class="with">PCF Challenge Award · Peter Mac &amp; WEHI</div></div></div>
+    <div class="now-item"><div class="status">Active</div><div><h3>Joint normalization of single-cell multimodal and spatial data</h3><p>Scalable normalization of single-cell multimodal and spatial data with the fastRUV-III algorithm.</p><div class="with">RUVprps · fastRUV-III</div></div></div>
+    <div class="now-item"><div class="status">Active</div><div><h3>Immune landscape of metastatic prostate cancer – PRINCE and LuParp clinical trials</h3><p>Immune, imaging and genomic characterization of response to 177Lu-PSMA, pembrolizumab and olaparib in metastatic castration-resistant prostate cancer.</p><div class="with">PCF Challenge Award · Peter Mac &amp; WEHI</div></div></div>
     <div class="now-item"><div class="status">Active</div><div><h3>Prostate cancer consortium studies</h3><p>Analysis contributions to studies of clonal dynamics and heterogeneous trajectories towards metastatic prostate cancer.</p><div class="with"><a href="https://panprostate.org" target="_blank" rel="noopener">Pan-Prostate Cancer Group · panprostate.org</a></div></div></div>
-    <div class="now-item"><div class="status">Active</div><div><h3>Digital pathology</h3><p>Deep learning that links histopathology with molecular data, including detection of neuroendocrine prostate cancer from routine histology.</p><div class="with">Dana-Farber Cancer Institute</div></div></div>
+    <div class="now-item"><div class="status">Active</div><div><h3>Digital pathology for prostate cancer</h3><p>Deep learning that links histopathology with molecular data, including detection of neuroendocrine prostate cancer from routine histology.</p><div class="with">Dana-Farber Cancer Institute</div></div></div>
+    <div class="now-item"><div class="status">Active</div><div><h3>Removal of unwanted variation from digital pathology data</h3><div class="with">Dana-Farber Cancer Institute</div></div></div>
   </div>
 </section>
 
@@ -345,14 +346,14 @@
       </ul>
       <h3 style="margin-top:32px">Consortia &amp; leadership</h3>
       <ul class="list">
+        <li><span class="yr">2020–</span><span>Massive Analysis and Quality Control (MAQC) Society</span></li>
         <li><span class="yr">2026–</span><span>Metastatic Research Society</span></li>
         <li><span class="yr">2025–</span><span>Human Tumor Atlas Network</span></li>
         <li><span class="yr">2025–26</span><span>MAQC Machine Learning Working Group</span></li>
-        <li><span class="yr">2024–</span><span>Co-Leader, PCF Microenvironment and Immunology Working Group</span></li>
         <li><span class="yr">2020–</span><span>Pan-Prostate Cancer Genome consortium</span></li>
-        <li><span class="yr">2020–</span><span>Massive Analysis and Quality Control (MAQC) Society</span></li>
         <li><span class="yr">2020–</span><span>International Society for Computational Biology (ISCB)</span></li>
         <li><span class="yr">2016–</span><span>Australian Bioinformatics and Computational Biology Society</span></li>
+        <li><span class="yr">2024–</span><span>Co-Leader, PCF Microenvironment and Immunology Working Group</span></li>
         <li><span class="yr">2022</span><span>Sole Convenor, Victorian Cancer Bioinformatics Symposium</span></li>
         <li><span class="yr">2023</span><span>Co-Convener, WEHI Bioinformatics Seminar Series<div class="d">45 weekly talks</div></span></li>
       </ul>
@@ -404,9 +405,9 @@
         <li><span class="yr">2023</span><span>Workshop instructor: Removing unwanted variation from large cancer data<div class="d">International Biometric Society Conference, Turkey</div></span></li>
         <li><span class="yr">2022</span><span>Designer &amp; instructor: Experimental design course (graduate)<div class="d">WEHI Statistics Education Subcommittee</div></span></li>
         <li><span class="yr">2018</span><span>Workshop co-organizer &amp; instructor: Removing unwanted variation with R<div class="d">useR! 2018, Brisbane</div></span></li>
-        <li><span class="yr">2017</span><span>Workshop co-organizer &amp; instructor: Transcriptomic data analysis<div class="d">Short bioinformatics course, Iran</div></span></li>
         <li><span class="yr">2016</span><span>Teaching assistant: Data visualization in R<div class="d">Melbourne Business School, University of Melbourne</div></span></li>
         <li><span class="yr">2016</span><span>Guest lecturer: Algorithms for functional genomics<div class="d">The University of Melbourne</div></span></li>
+        <li><span class="yr">2016</span><span>Guest lecturer: Gene expression data analysis: pitfalls and principles<div class="d">The University of Melbourne</div></span></li>
       </ul>
     </div>
   </div>
