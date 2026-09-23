@@ -1,4 +1,4 @@
-name: Update publications
+name: Update citation stats
 
 on:
   schedule:
@@ -21,18 +21,18 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Fetch publications from Google Scholar
+      - name: Fetch citation stats from Google Scholar
         run: python fetch_scholar.py
         continue-on-error: true   # Scholar may rate-limit; keep the old file
         timeout-minutes: 5        # Scholar can hang instead of erroring when it blocks CI IPs
 
       - name: Commit changes
         run: |
-          if [ -n "$(git status --porcelain publications.json scholar-stats.json)" ]; then
+          if [ -n "$(git status --porcelain scholar-stats.json)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add publications.json scholar-stats.json
-            git commit -m "Update publications and citation stats from Google Scholar"
+            git add scholar-stats.json
+            git commit -m "Update citation stats from Google Scholar"
             git push
           else
             echo "No changes."
