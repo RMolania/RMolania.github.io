@@ -1,5 +1,5 @@
 #!/bin/bash
-# Fetches citation/h-index/publication data from Google Scholar and pushes
+# Fetches citation/h-index data from Google Scholar and pushes
 # it to GitHub. Run manually, or scheduled locally via launchd (see
 # com.rmolania.updatescholar.plist) since Google Scholar blocks requests
 # from GitHub Actions' data-center IPs but not from a home network.
@@ -10,11 +10,11 @@ cd "$REPO_DIR"
 
 "$REPO_DIR/.venv/bin/python3" fetch_scholar.py
 
-if [ -n "$(git status --porcelain publications.json scholar-stats.json)" ]; then
-  git add publications.json scholar-stats.json
-  git commit -m "Update publications and citation stats from Google Scholar"
+if [ -n "$(git status --porcelain scholar-stats.json)" ]; then
+  git add scholar-stats.json
+  git commit -m "Update citation stats from Google Scholar"
   git push origin main
-  echo "Pushed updated publications/stats."
+  echo "Pushed updated stats."
 else
   echo "No changes."
 fi
