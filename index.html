@@ -192,16 +192,10 @@
   @media (max-width: 800px) { .two { grid-template-columns: 1fr; } }
 
   /* ---------- contact ---------- */
-  .contact { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-  form { display: grid; gap: 12px; }
-  label { font-size: 12.5px; font-weight: 600; color: var(--ink-2); display: grid; gap: 5px; }
-  input, textarea { font: inherit; font-size: 15px; padding: 10px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); width: 100%; }
-  input:focus, textarea:focus { border-color: var(--teal); outline: none; }
-  textarea { min-height: 120px; resize: vertical; }
+  .contact { max-width: 620px; }
   .clist { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; font-size: 15px; }
   .clist li { display: grid; grid-template-columns: 90px 1fr; gap: 10px; }
   .clist .k { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); padding-top: 4px; text-transform: uppercase; letter-spacing: .06em; }
-  @media (max-width: 800px) { .contact { grid-template-columns: 1fr; } }
   footer { padding: 28px 64px; color: var(--ink-3); font-size: 13px; font-family: var(--mono); }
   @media (max-width: 960px) { footer { padding: 24px; } }
   /* ---------- blurred logo behind the whole page ---------- */
@@ -421,7 +415,6 @@
     <details class="tool"><summary><span class="tag">R package · single-cell &amp; spatial</span><h3>fastRUV-III</h3><p>Fast normalization and integration of atlas-level single-cell and spatial data.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Status</b> — completed.</li><li><b>Use</b> — normalization and integration of atlas-scale single-cell and spatial transcriptomic data.</li><li><b>Related</b> — RUV-III-NB for single-cell counts (<i>Nucleic Acids Res</i> 2022).</li><li><b>Developed at</b> WEHI and DFCI, 2024–2026. Joint single-cell multimodal and spatial normalization manuscript in preparation.</li></ul><div class="links"><a href="#">GitHub</a></div></div></details>
     <details class="tool"><summary><span class="tag">R package · metastasis</span><h3>RUVprps_Met</h3><p>Removal of host-tissue background signals from metastatic bulk RNA-seq.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Status</b> — completed.</li><li><b>Problem</b> — signal from the surrounding organ can mask tumour biology in metastatic samples.</li><li><b>Approach</b> — extends the RUVprps framework to remove host-tissue background.</li><li><b>Developed at</b> DFCI, 2026.</li></ul><div class="links"><a href="#">GitHub</a></div></div></details>
     <details class="tool"><summary><span class="tag">Database · single-cell, bulk &amp; spatial</span><h3>STAMP</h3><p>Single-cell (18 million cells), bulk (70k samples) and spatial (400 samples) transcriptomic atlas of primary and metastatic cancers.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Status</b> — completed.</li><li><b>Scope</b> — 18 million single cells, 70,000 bulk samples and 400 spatial samples.</li><li><b>Cancers</b> — primary and metastatic tumours across cancer types.</li><li><b>Status</b> — developed at DFCI, 2025–2026; manuscript in final preparation.</li></ul></div></details>
-    <details class="tool"><summary><span class="tag">R package · TCGA</span><h3>tcgaCleaner</h3><p>Exploring and removing unwanted variation from TCGA RNA-seq data.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Status</b> — completed.</li><li><b>Use</b> — detect and remove technical variation in TCGA RNA-seq before analysis.</li><li><b>Companion to</b> the TCGA Shiny app and the harmonized TCGA data resource.</li><li><b>Developed at</b> WEHI, 2022.</li></ul><div class="links"><a href="#">GitHub</a></div></div></details>
     <details class="tool"><summary><span class="tag">Web app · TCGA</span><h3>TCGA R Shiny app</h3><p>Interactive visualization for exploring and removing unwanted variation from TCGA pan-cancer RNA-seq data.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Status</b> — completed.</li><li><b>Use</b> — explore sources of unwanted variation interactively across the TCGA pan-cancer data.</li><li><b>Built with</b> R Shiny.</li><li><b>Developed at</b> WEHI, 2022.</li></ul><div class="links"><a href="#">Open app</a></div></div></details>
     <details class="tool"><summary><span class="tag">Pipeline · consortium</span><h3>PPCG RNA-seq</h3><p>Contributor to the RNA-seq analysis pipeline for the Pan-Prostate Cancer Genome consortium.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Status</b> — completed.</li><li><b>Role</b> — contributor to the shared RNA-seq data analysis pipeline.</li><li><b>Consortium</b> — Pan-Prostate Cancer Genome (PPCG).</li><li><b>Involved since</b> 2021, from WEHI.</li></ul><div class="links"><a href="#">Overview</a></div></div></details>
     <details class="tool wide"><summary><div><span class="tag">Data resource · 7k downloads</span><h3>TCGA pan-cancer RNA-seq</h3></div><p>Harmonized TCGA RNA-seq data for 33 cancer types and about 11,000 samples, as SummarizedExperiment objects with raw counts, FPKM, batch information and gene annotations.</p><span class="more">Details</span></summary><div class="detail"><ul><li><b>Status</b> — completed.</li><li><b>Coverage</b> — 33 cancer types and about 11,000 samples.</li><li><b>Contents</b> — raw counts, FPKM, batch information and gene annotations.</li><li><b>Format</b> — SummarizedExperiment objects, ready for R and Bioconductor workflows.</li><li><b>Reach</b> — 7k downloads; released from WEHI, 2023.</li></ul><div class="links"><a href="https://zenodo.org/records/6326542">Zenodo</a></div></div></details>
@@ -440,19 +433,9 @@
 <section class="block" id="contact">
   <div class="block-head"><h2><svg class="ic" aria-hidden="true"><use href="#i-contact"/></svg>Contact</h2><p>Collaboration, methods, software, speaking</p></div>
   <div class="contact">
-    <!-- Formspree (https://formspree.io): replace YOUR_ID to make this form work -->
-    <form action="https://formspree.io/f/YOUR_ID" method="POST">
-      <label>Name <input type="text" name="name" required></label>
-      <label>Email <input type="email" name="email" required></label>
-      <label>Message <textarea name="message" required></textarea></label>
-      <div><button class="btn fill" type="submit" style="font-family:inherit;cursor:pointer">Send message</button></div>
-    </form>
     <ul class="clist">
       <li><span class="k">Email</span><a href="mailto:ramyar_molania@dfci.harvard.edu">ramyar_molania@dfci.harvard.edu</a></li>
-      <li><span class="k">Address</span><span>Dana-Farber Cancer Institute<br>Boston, MA, USA</span></li>
-      <li><span class="k">Scholar</span><a href="https://scholar.google.com.au/citations?user=u-bNAS8AAAAJ&amp;hl=en">Google Scholar</a></li>
-      <li><span class="k">LinkedIn</span><a href="https://www.linkedin.com/">Connect on LinkedIn</a></li>
-      <li><span class="k">Code</span><a href="https://github.com/">GitHub</a></li>
+      <li><span class="k">Address</span><span>Dana Building, Dana-Farber Cancer Institute<br>440 Brookline Avenue<br>Boston, MA 02215, USA</span></li>
     </ul>
   </div>
 </section>
